@@ -1,3 +1,10 @@
+import mysql.connector
+from login import Login
+from instructorManager import InstructorManager
+from turnoManager import TurnoManager
+from reporte import Reporte
+
+
 # Clase principal para la aplicación
 class EscuelaApp:
     def __init__(self, db_connection):
@@ -50,8 +57,8 @@ class EscuelaApp:
 if __name__ == "__main__":
     db_connection = mysql.connector.connect(
         host="localhost",
-        user="tu_usuario",
-        password="tu_contraseña",
+        user="root",
+        password="1234",
         database="escuela_deportes"
     )
     app = EscuelaApp(db_connection)
