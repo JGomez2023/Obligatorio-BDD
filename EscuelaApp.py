@@ -3,6 +3,7 @@ from login import Login
 from instructorManager import InstructorManager
 from turnoManager import TurnoManager
 from reporte import Reporte
+from alumnoManager import AlumnoManager
 
 
 # Clase principal para la aplicación
@@ -10,6 +11,7 @@ class EscuelaApp:
     def __init__(self, db_connection):
         self.login = Login(db_connection)
         self.instructor_manager = InstructorManager(db_connection)
+        self.alumno_manager = AlumnoManager(db_connection)
         self.turno_manager = TurnoManager(db_connection)
         self.reporte = Reporte(db_connection)
 
@@ -20,8 +22,9 @@ class EscuelaApp:
             while True:
                 print("\n1. ABM Instructores")
                 print("2. ABM Turnos")
-                print("3. Ver reportes")
-                print("4. Salir")
+                print("3. ABM Alumnos")
+                print("4. Ver reportes")
+                print("5. Salir")
                 opcion = input("Seleccione una opción: ")
                 if opcion == "1":
                     self.gestion_instructores()
@@ -41,6 +44,12 @@ class EscuelaApp:
         print("3. Eliminar Instructor")
         # Implementar lógica según la opción
 
+    def gestion_alumnos(self):
+        print("\n1. Agregar Alumno")
+        print("2. Modificar Alumno")
+        print("3. Eliminar Alumno")
+        # Implementar lógica según la opción
+        
     def gestion_turnos(self):
         print("\n1. Agregar Turno")
         print("2. Modificar Turno")
