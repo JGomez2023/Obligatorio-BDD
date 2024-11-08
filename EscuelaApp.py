@@ -7,6 +7,7 @@ from alumnoManager import AlumnoManager
 from equipamientoManager import EquipamientoManager
 from actividadesManager import ActividadesManager
 from claseManager import ClaseManager
+from alumnoClaseManager import AlumnoClaseManager
 
 
 # Clase principal para la aplicación
@@ -19,6 +20,7 @@ class EscuelaApp:
         self.actividad_manager = ActividadManager(db_connection)
         self.equipamiento_manager = EquipamientoManager(db_connection)
         self.clase_manager = ClaseManager(db_connection)
+        self.alumnoclase_manager = AlumnoClaseManager(db_connection)
         self.reporte = Reporte(db_connection)
 
     def iniciar(self):
@@ -34,7 +36,8 @@ class EscuelaApp:
                 print("5. ABM Actividades")
                 print("6. ABM Equipamientos")
                 print("7. ABM Clases")
-                print("8. Salir")
+                print("8. Menu Inscripción de Alumnos")
+                print("9. Salir")
                 opcion = input("Seleccione una opción: ")
                 if opcion == "1":
                     self.gestion_instructores()
@@ -51,6 +54,8 @@ class EscuelaApp:
                 elif opcion == "7":
                     self.gestion_clases()
                 elif opcion == "8":
+                    self.gestion_inscripcion_alumnos()
+                elif opcion == "9":
                     self.login.logout(correo)
                     break
                 else:
@@ -248,6 +253,77 @@ class EscuelaApp:
     def eliminar_actividad(self):
         actividad_id = int(input("Ingrese el ID de la actividad a eliminar: "))
         self.actividad_manager.eliminar_actividad(actividad_id)
+    
+    def gestion_inscripcion_alumnos(self):
+        """
+        Menú para gestionar las inscripciones de alumnos en clases.
+        """
+        while True:
+            print("\n--- GESTIÓN DE INSCRIPCIONES DE ALUMNOS ---")
+            print("1. Inscribir Alumno en Clase")
+            print("2. Modificar Inscripción de Alumno")
+            print("3. Eliminar Inscripción")
+            print("4. Listar Alumnos por Clase")
+            print("5. Listar Clases por Alumno")
+            print("6. Volver al Menú Principal")
+
+            opcion = input("Seleccione una opción: ")
+
+            if opcion == "1":
+                self.inscribir_alumno()
+            elif opcion == "2":
+                self.modificar_inscripcion()
+            elif opcion == "3":
+                self.eliminar_inscripcion()
+            elif opcion == "4":
+                self.listar_alumnos_por_clase()
+            elif opcion == "5":
+                self.listar_clases_por_alumno()
+            elif opcion == "6":
+                break
+            else:
+                print("Opción no válida. Inténtelo de nuevo.")
+
+    def inscribir_alumno(self):
+        try:
+            id_clase = int(input("Ingrese el ID de la clase: "))
+            ci_alumno = input("Ingrese la cédula del alumno: ")
+            id_equipamiento = input("Ingrese el ID del equipamiento (opcional, presione Enter si no aplica): ")
+            id_equipamiento = int(id_equipamiento) if id_equipamiento else None
+
+            self.alumno_clase_manager.inscribir_alumno(id_clase, ci_alumno, id_equipamiento)
+        except ValueError:
+            print("Entrada no válida. Asegúrese de ingresar datos correctos.")
+
+    def modificar_inscripcion(self):
+        try:
+            id_clase = int(input("Ingrese el ID de la clase: "))
+            ci_alumno = input("Ingrese la cédula del alumno: ")
+            nuevo_id_equipamiento = input("Ingrese el nuevo ID del equipamiento (opcional, presione Enter si no aplica): ")
+            nuevo_id_equipamiento = int(nuevo_id_equipamiento) if nuevo_id_equipamiento else None
+
+            self.alumno_clase_manager.modificar_inscripcion(id_clase, ci_alumno, nuevo_id_equipamiento)
+        except ValueError:
+            print("Entrada no válida. Asegúrese de ingresar datos correctos.")
+
+    def eliminar_inscripcion(self):
+        try:
+            id_clase = int(input("Ingrese el ID de la clase: "))
+            ci_alumno = input("Ingrese la cédula del alumno: ")
+            self.alumno_clase_manager.eliminar_inscripcion(id_clase, ci_alumno)
+        except ValueError:
+            print("Entrada no válida. Asegúrese de ingresar datos correctos.")
+
+    def listar_alumnos_por_clase(self):
+        try:
+            id_clase = int(input("Ingrese el ID de la clase: "))
+            self.alumno_clase_manager.listar_alumnos_por_clase(id_clase)
+        except ValueError:
+            print("Entrada no válida. Asegúrese de ingresar datos correctos.")
+
+    def listar_clases_por_alumno(self):
+        ci_alumno = input("Ingrese la cédula del alumno: ")
+        self.alumno_clase_manager.listar_clases_por_alumno(ci_alumno)
 
     def gestion_equipamiento(self):
         """
