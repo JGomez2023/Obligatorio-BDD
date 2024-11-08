@@ -17,7 +17,7 @@ class EscuelaApp:
         self.instructor_manager = InstructorManager(db_connection)
         self.alumno_manager = AlumnoManager(db_connection)
         self.turno_manager = TurnoManager(db_connection)
-        self.actividad_manager = ActividadManager(db_connection)
+        self.actividad_manager = ActividadesManager(db_connection)
         self.equipamiento_manager = EquipamientoManager(db_connection)
         self.clase_manager = ClaseManager(db_connection)
         self.alumnoclase_manager = AlumnoClaseManager(db_connection)
