@@ -6,9 +6,12 @@ class Reporte:
     def reporte_actividades_mas_ingresos(self):
         cursor = self.db_connection.cursor(dictionary=True)
         query = """
-        SELECT a.descripcion, SUM(a.costo + IFNULL(e.costo, 0)) AS total_ingreso
+        SELECT a.descripcion, IFNULL(SUM(a.costo + e.costo), 0) AS total_ingreso
         FROM actividades a
         LEFT JOIN equipamiento e ON a.id = e.id_actividad
+        LEFT JOIN clase c ON a.id = c.id_actividad
+        LEFT JOIN alumno_clase ac ON c.id = ac.id_clase
+        WHERE ac.ci_alumno IS NOT NULL
         GROUP BY a.id
         ORDER BY total_ingreso DESC
         """
@@ -16,7 +19,7 @@ class Reporte:
         resultados = cursor.fetchall()
         for row in resultados:
             print(f"Actividad: {row['descripcion']}, Ingreso total: {row['total_ingreso']}")
-            
+    
     def reporte_actividades_con_mas_alumnos(self):
         cursor = self.db_connection.cursor(dictionary=True)
         query = """

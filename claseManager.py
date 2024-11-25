@@ -25,6 +25,21 @@ class ClaseManager:
         """
         try:
             cursor = self.db_connection.cursor()
+
+            # Verificar si la clase está en horario actual
+            query_horario = """
+                SELECT COUNT(*)
+                FROM turnos t
+                JOIN clase c ON t.id = c.id_turno
+                WHERE c.id = %s AND NOW() BETWEEN t.hora_inicio AND t.hora_fin
+            """
+            cursor.execute(query_horario, (id_clase,))
+            en_horario = cursor.fetchone()[0]
+
+            if en_horario:
+                print("La clase está en horario actual y no se puede modificar.")
+                return
+                
             query = "UPDATE clase SET "
             params = []
             
@@ -59,6 +74,20 @@ class ClaseManager:
         """
         try:
             cursor = self.db_connection.cursor()
+
+            # Verificar si la clase está en horario actual
+            query_horario = """
+                SELECT COUNT(*)
+                FROM turnos t
+                JOIN clase c ON t.id = c.id_turno
+                WHERE c.id = %s AND NOW() BETWEEN t.hora_inicio AND t.hora_fin
+            """
+            cursor.execute(query_horario, (id_clase,))
+            en_horario = cursor.fetchone()[0]
+
+            if en_horario:
+                print("La clase está en horario actual y no se puede eliminar.")
+                return
             query = "DELETE FROM clase WHERE id = %s"
             cursor.execute(query, (id_clase,))
             self.db_connection.commit()
