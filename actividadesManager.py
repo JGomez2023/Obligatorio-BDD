@@ -69,3 +69,20 @@ class ActividadesManager:
         except Exception as e:
             print(f"Error al obtener actividad: {e}")
             return None
+        
+    def eliminar_actividad(self, actividad_id):
+        """
+        Elimina una actividad existente de la base de datos por su ID.
+        """
+        try:
+            cursor = self.db_connection.cursor()
+            query = "DELETE FROM actividades WHERE id = %s"
+            cursor.execute(query, (actividad_id,))
+            if cursor.rowcount > 0:
+                self.db_connection.commit()
+                print("Actividad eliminada exitosamente.")
+            else:
+                print("No se encontró ninguna actividad con el ID proporcionado.")
+        except Exception as e:
+            print(f"Error al eliminar actividad: {e}")
+            self.db_connection.rollback()

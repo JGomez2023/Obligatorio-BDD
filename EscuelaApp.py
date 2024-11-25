@@ -1,13 +1,13 @@
 import mysql.connector
-from login import Login
-from instructorManager import InstructorManager
-from turnoManager import TurnoManager
-from reporte import Reporte
-from alumnoManager import AlumnoManager
-from equipamientoManager import EquipamientoManager
-from actividadesManager import ActividadesManager
-from claseManager import ClaseManager
-from alumnoClaseManager import AlumnoClaseManager
+from Login import Login
+from InstructorManager import InstructorManager
+from TurnoManager import TurnoManager
+from Reporte import Reporte
+from AlumnoManager import AlumnoManager
+from EquipamientoManager import EquipamientoManager
+from ActividadesManager import ActividadesManager
+from ClaseManager import ClaseManager
+from AlumnoClaseManager import AlumnoClaseManager
 
 
 # Clase principal para la aplicación
@@ -17,7 +17,7 @@ class EscuelaApp:
         self.instructor_manager = InstructorManager(db_connection)
         self.alumno_manager = AlumnoManager(db_connection)
         self.turno_manager = TurnoManager(db_connection)
-        self.actividad_manager = ActividadManager(db_connection)
+        self.actividad_manager = ActividadesManager(db_connection)
         self.equipamiento_manager = EquipamientoManager(db_connection)
         self.clase_manager = ClaseManager(db_connection)
         self.alumnoclase_manager = AlumnoClaseManager(db_connection)
@@ -241,7 +241,7 @@ class EscuelaApp:
     def agregar_actividad(self):
         descripcion = input("Ingrese la descripción de la actividad: ")
         costo = float(input("Ingrese el costo de la actividad: "))
-        self.actividad_manager.agregar_actividad(descripcion, costo)
+        self.actividad_manager.crear_actividad(descripcion, costo)
     
     def modificar_actividad(self):
         actividad_id = int(input("Ingrese el ID de la actividad a modificar: "))
@@ -291,7 +291,7 @@ class EscuelaApp:
             id_equipamiento = input("Ingrese el ID del equipamiento (opcional, presione Enter si no aplica): ")
             id_equipamiento = int(id_equipamiento) if id_equipamiento else None
 
-            self.alumno_clase_manager.inscribir_alumno(id_clase, ci_alumno, id_equipamiento)
+            self.alumnoclase_manager.inscribir_alumno(id_clase, ci_alumno, id_equipamiento)
         except ValueError:
             print("Entrada no válida. Asegúrese de ingresar datos correctos.")
 
@@ -302,7 +302,7 @@ class EscuelaApp:
             nuevo_id_equipamiento = input("Ingrese el nuevo ID del equipamiento (opcional, presione Enter si no aplica): ")
             nuevo_id_equipamiento = int(nuevo_id_equipamiento) if nuevo_id_equipamiento else None
 
-            self.alumno_clase_manager.modificar_inscripcion(id_clase, ci_alumno, nuevo_id_equipamiento)
+            self.alumnoclase_manager.modificar_inscripcion(id_clase, ci_alumno, nuevo_id_equipamiento)
         except ValueError:
             print("Entrada no válida. Asegúrese de ingresar datos correctos.")
 
@@ -310,20 +310,20 @@ class EscuelaApp:
         try:
             id_clase = int(input("Ingrese el ID de la clase: "))
             ci_alumno = input("Ingrese la cédula del alumno: ")
-            self.alumno_clase_manager.eliminar_inscripcion(id_clase, ci_alumno)
+            self.alumnoclase_manager.eliminar_inscripcion(id_clase, ci_alumno)
         except ValueError:
             print("Entrada no válida. Asegúrese de ingresar datos correctos.")
 
     def listar_alumnos_por_clase(self):
         try:
             id_clase = int(input("Ingrese el ID de la clase: "))
-            self.alumno_clase_manager.listar_alumnos_por_clase(id_clase)
+            self.alumnoclase_manager.listar_alumnos_por_clase(id_clase)
         except ValueError:
             print("Entrada no válida. Asegúrese de ingresar datos correctos.")
 
     def listar_clases_por_alumno(self):
         ci_alumno = input("Ingrese la cédula del alumno: ")
-        self.alumno_clase_manager.listar_clases_por_alumno(ci_alumno)
+        self.alumnoclase_manager.listar_clases_por_alumno(ci_alumno)
 
     def gestion_equipamiento(self):
         """

@@ -91,3 +91,20 @@ class EquipamientoManager:
         except Exception as e:
             print(f"Error al obtener equipamientos: {e}")
             return []
+        
+    def eliminar_equipamiento(self, equipamiento_id):
+        """
+        Elimina un equipamiento existente de la base de datos por su ID.
+        """
+        try:
+            cursor = self.db_connection.cursor()
+            query = "DELETE FROM equipamiento WHERE id = %s"
+            cursor.execute(query, (equipamiento_id,))
+            if cursor.rowcount > 0:
+                self.db_connection.commit()
+                print("Equipamiento eliminado exitosamente.")
+            else:
+                print("No se encontró ningún equipamiento con el ID proporcionado.")
+        except Exception as e:
+            print(f"Error al eliminar equipamiento: {e}")
+            self.db_connection.rollback()
