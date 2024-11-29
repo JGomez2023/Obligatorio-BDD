@@ -3,11 +3,11 @@ from Login import Login
 from InstructorManager import InstructorManager
 from TurnoManager import TurnoManager
 from Reporte import Reporte
-from AlumnoManager import AlumnoManager
-from EquipamientoManager import EquipamientoManager
-from ActividadesManager import ActividadesManager
-from ClaseManager import ClaseManager
-from AlumnoClaseManager import AlumnoClaseManager
+from alumnoManager import AlumnoManager
+from equipamientoManager import EquipamientoManager
+from actividadesManager import ActividadesManager
+from claseManager import ClaseManager
+from alumnoClaseManager import AlumnoClaseManager
 
 
 # Clase principal para la aplicación
